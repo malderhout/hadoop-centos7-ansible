@@ -1,0 +1,68 @@
+---
+# Hadoop install
+
+- hosts: all 
+  user: vagrant 
+  sudo: true
+  tasks:
+
+  - name: install wget 
+    yum: name=wget state=present
+
+  - name: install openjdk 1.7.0
+    yum: name=java-1.7.0-openjdk state=present
+
+  - name: check if hadoop is already downloaded 
+    command: /usr/bin/test -e /home/vagrant/hadoop-2.5.0.tar.gz
+    ignore_errors: True
+    register: hadoop_exists
+
+  - name: download hadoop 2.5.0 
+    get_url:
+       url=http://apache.claz.org/hadoop/common/hadoop-2.5.0/hadoop-2.5.0.tar.gz dest=/home/vagrant 
+    when: hadoop_exists.rc != 0 
+
+  - name: check hadoop directory existence
+    stat: path=/opt/hadoop-2.5.0
+    register: hadoop_dir  
+
+  - name: extract hadoop
+    unarchive: src=/home/vagrant/hadoop-2.5.0.tar.gz dest=/opt copy=no
+    when: not hadoop_dir.stat.exists
+
+  - name: create symbolic link
+    file: src=/opt/hadoop-2.5.0 dest=/opt/hadoop state=link
+
+  - name: .bashrc
+    copy: src=.bashrc dest=/home/vagrant
+
+  - name: hadoop conf core-site
+    template: src=core-site.xml dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop conf hdfs-site
+    template: src=hdfs-site.xml dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop conf mapred-site
+    template: src=mapred-site.xml dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop conf yarn-site
+    template: src=yarn-site.xml dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop conf core-site
+    template: src=core-site.xml dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop conf hadoop-env
+    template: src=hadoop-env.sh dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop conf yarn-env
+    template: src=yarn-env.sh dest=/opt/hadoop/etc/hadoop
+
+  - name: hadoop service config
+    copy: src=hadoop dest=/etc/init.d/hadoop mode=0777
+
+  - name: format namenode
+    command: /opt/hadoop/bin/hdfs namenode -format -nonInteractive
+    ignore_errors: True
+
+  - name: hadoop service start
+    command: service hadoop start
