@@ -11,12 +11,13 @@ Required:
 
 See also http://malderhout.wordpress.com/2014/08/22/install-single-node-hadoop-on-centos-7-in-5-simple-steps/
 
-Hadoop use is now changed to vagrant user
+Hadoop user is now changed to vagrant user
 Change ip in hosts and Vagrantfile if needed 
 
 start:
 
-vagrant up
-vagrant ssh
+vagrant up (load box and provision)
 
+vagrant ssh (ssh access)
 
+test on http://<ip-number>:50070/
