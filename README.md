@@ -17,8 +17,11 @@ Change ip in hosts and Vagrantfile if needed
 
 start:
 
+```
 vagrant up (load box and provision)
 
 vagrant ssh (ssh access)
+```
+
 
 test on http://ip-number:50070/
