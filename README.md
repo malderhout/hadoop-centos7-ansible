@@ -24,6 +24,6 @@ $ vagrant up
 
 ```
 
-## Test
+## Test:
 
-test on http://ip-number:50070/
+http://ip-number:50070/ 
