@@ -3,7 +3,7 @@ hadoop-centos7-ansible
 
 Install single node Hadoop on CentOS 7 in 5 simple steps with Ansible
 
-#H1 Required:
+## Required:
 
 - VirtualBox
 - Vagrant
