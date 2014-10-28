@@ -26,4 +26,4 @@ $ vagrant up
 
 ## Test:
 
-http://ip-number:50070/ 
+http://localhost:50070/ 
